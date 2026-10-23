@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optimized AES Visualizer</title>
+    <link rel="stylesheet" href="../static/index.css" />
+    <link rel="icon" href="../static/AESLogo.png" />
+  </head>
+  <body>
+    <style>
+      img {
+        height: 200px;
+      }
+    </style>
+    <div class="App">
+      <header class="App-header">
+        <img src="../static/logo512.png" alt="logo" />
+        <h1>
+          OPTIMIZED ADVANCED ENCRYPTION STANDARD <br />
+          SYSTEM (Server Support : files, messages, and images)
+        </h1>
+        <div class="flex-container">
+          <form class="grid" action="/encrypt" method="POST">
+            <label for="Plaintext" style="margin-left: 0vw"
+              >Enter the Plain Text:
+            </label>
+            <input
+              type="text"
+              style="margin-left: 1.5vw"
+              name="plaintext"
+              id="pt"
+            />
+            <br />
+
+            <label for="Key">Enter the 128-Bit Key: </label>
+            <input type="text" name="key" id="key" />
+            <br />
+            <br />
+
+            <center>
+              <input type="Submit" class="submit_button" value="Encrypt" />
+            </center>
+          </form>
+
+          <form class="grid" action="/decrypt" method="POST">
+            <label for="Plaintext" style="margin-left: 0vw"
+              >Enter the Cipher Text:
+            </label>
+            <input
+              type="text"
+              style="margin-left: 0.4vw"
+              name="plaintext"
+              id="pt"
+            />
+            <br />
+
+            <label for="Key">Enter the 128-Bit Key: </label>
+            <input type="text" name="key" id="key" />
+            <br />
+            <br />
+
+            <center>
+              <input type="Submit" class="submit_button" value="Decrypt" />
+            </center>
+          </form>
+        </div>
+        <br />
+      </header>
+    </div>
+  </body>
+</html>

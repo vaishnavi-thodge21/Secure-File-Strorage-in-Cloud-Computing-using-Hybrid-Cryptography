@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Encryption & Decryption</title>
+    <style>
+      body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+      }
+      h1 {
+        color: #00adb5;
+      }
+      form {
+        background: #1e1e1e;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px auto;
+        width: 50%;
+        box-shadow: 0px 0px 10px #00adb5;
+      }
+      input,
+      button {
+        padding: 10px;
+        margin: 10px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+      }
+      input {
+        background: #333;
+        color: #ffffff;
+      }
+      button {
+        background: #00adb5;
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #008b9e;
+      }
+      .flash-message {
+        color: #ffcc00;
+        font-weight: bold;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: #00adb5;
+      }
+      .section {
+        margin: 30px 0;
+        padding: 20px;
+      }
+
+      .developer-section {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        margin-top: 40px;
+        text-align: center;
+        border-radius: 10px;
+      }
+
+      .developer-section p {
+        font-size: 18px;
+      }
+
+      .developer-section span {
+        font-size: 20px;
+        font-weight: bold;
+        color: #00bcd4;
+      }
+      .section img {
+        width: 100%;
+        max-width: 600px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      }
+      .theory {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 10px;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      ul li {
+        padding: 5px 0;
+      }
+      .highlight {
+        font-weight: bold;
+        color: #2c3e50;
+      }
+      .highlight-text {
+        color: #ff9800;
+        font-weight: bold;
+      }
+      .section p {
+        color: #bbb;
+      }
+      .section h2 {
+        margin-top: 20px;
+      }
+      .section ul li {
+        font-size: 16px;
+        color: #aaa;
+      }
+
+      .content-container {
+        padding: 20px;
+      }
+
+      .section-title {
+        color: #333;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-decoration: underline;
+      }
+
+      .feature-list,
+      .use-case-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .feature-list li,
+      .use-case-list li {
+        background-color: #fff;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .feature-list li strong,
+      .use-case-list li strong {
+        color: #333;
+      }
+
+      .use-case-list li {
+        font-size: 14px;
+      }
+
+      .use-case-list li .actor {
+        font-weight: bold;
+      }
+
+      .use-case-list li .flow {
+        margin-top: 5px;
+      }
+
+      .use-case-list li .flow p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .use-case-list li .postcondition {
+        margin-top: 10px;
+        font-style: italic;
+      }
+
+      .content-container {
+        padding: 20px;
+      }
+
+      .section-title {
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 10px;
+        text-decoration: underline;
+      }
+
+      .feature-list,
+      .use-case-list {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .feature-list li,
+      .use-case-list li {
+        background-color: #333;
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #444;
+        border-radius: 4px;
+      }
+
+      .feature-list li strong,
+      .use-case-list li strong {
+        color: #e0e0e0;
+      }
+
+      .use-case-list li {
+        font-size: 14px;
+      }
+
+      .use-case-list li .actor {
+        font-weight: bold;
+      }
+
+      .use-case-list li .flow {
+        margin-top: 5px;
+      }
+
+      .use-case-list li .flow p {
+        margin: 0;
+        padding: 0;
+      }
+
+      .use-case-list li .postcondition {
+        margin-top: 10px;
+        font-style: italic;
+        color: #bbb;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>File Encryption & Decryption System</h1>
+
+    <p>Upload a file to encrypt or enter the filename to decrypt.</p>
+
+    <!-- Display flash messages -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <div class="flash-message">
+      {% for message in messages %}
+      <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %} {% if encrypted_text %}
+
+    <h3>Encrypted Text:</h3>
+    <div class="flash-message">
+      <p>{{ encrypted_text }}</p>
+      {% endif %} {% if decrypted_text %}
+      <h3>Decrypted Text:</h3>
+      <p>{{ decrypted_text }}</p>
+      {% endif %}
+    </div>
+
+    <!-- File Upload Form for Encryption -->
+    <form action="/file-upload" method="post" enctype="multipart/form-data">
+      <h2>Encrypt a File</h2>
+      <p>
+        Select a file to encrypt. The file will be securely stored and
+        encrypted.
+      </p>
+      <input type="file" name="file" required />
+      <br />
+      <label for="encryption_method">Select Encryption Method:</label>
+      <select name="encryption_method" required>
+        <option value="CBC">CBC</option>
+        <option value="ECB">ECB</option>
+        <option value="TRIPLE">Triple</option>
+      </select>
+      <br />
+      <button type="submit">Encrypt File</button>
+    </form>
+
+    <!-- File Decryption Form -->
+    <form action="/file-decrypt" method="post">
+      <h2>Decrypt a File</h2>
+      <p>Enter the encrypted filename (including ".enc") to decrypt it.</p>
+      <input
+        type="text"
+        name="decrypt_file"
+        placeholder="example.txt.enc"
+        required
+      />
+      <br />
+      <label for="decryption_method">Select Decryption Method:</label>
+      <select name="decryption_method" required>
+        <option value="CBC">CBC</option>
+        <option value="ECB">ECB</option>
+        <option value="TRIPLE">Triple</option>
+      </select>
+      <br />
+      <button type="submit">Decrypt File</button>
+    </form>
+
+    <p><strong>How It Works:</strong></p>
+    <ul style="list-style-type: none; padding: 0">
+      <li>
+        🔹 <strong>Upload a File:</strong> The file will be stored in the
+        system.
+      </li>
+      <li>
+        🔹 <strong>Encryption:</strong> The file is encrypted using AES
+        (Advanced Encryption Standard).
+      </li>
+      <li>
+        🔹 <strong>Download:</strong> The encrypted file is saved in the system.
+      </li>
+      <li>
+        🔹 <strong>Decryption:</strong> Enter the encrypted filename to retrieve
+        the original file.
+      </li>
+    </ul>
+
+    <!-- Text Encryption Form -->
+    <form action="/text-encrypt" method="post">
+      <h2>Encrypt Text</h2>
+      <textarea name="text_input" required></textarea>
+      <br />
+      <label for="encryption_method">Select Encryption Method:</label>
+      <select name="encryption_method" required>
+        <option value="CBC">CBC</option>
+        <option value="ECB">ECB</option>
+        <option value="TRIPLE">Triple</option>
+      </select>
+      <br />
+      <button type="submit">Encrypt Text</button>
+    </form>
+
+    <!-- Text Decryption Form -->
+    <form action="/text-decrypt" method="post">
+      <h2>Decrypt Text</h2>
+      <textarea name="text_input" required></textarea>
+      <br />
+      <label for="decryption_method">Select Decryption Method:</label>
+      <select name="decryption_method" required>
+        <option value="CBC">CBC</option>
+        <option value="ECB">ECB</option>
+        <option value="TRIPLE">Triple</option>
+      </select>
+      <br />
+      <button type="submit">Decrypt Text</button>
+    </form>
+
+    <p><strong>How It Works (Text Encryption and Decryption):</strong></p>
+    <ul style="list-style-type: none; padding: 0">
+      <li>
+        🔹 <strong>Enter Text:</strong> Input the text you want to encrypt in
+        the provided text box.
+      </li>
+      <li>
+        🔹 <strong>Encryption:</strong> The entered text is encrypted using AES
+        (Advanced Encryption Standard) in the selected mode (CBC or ECB).
+      </li>
+      <li>
+        🔹 <strong>Encrypted Text:</strong> The encrypted text is displayed as a
+        hex string, which can be copied or stored.
+      </li>
+      <li>
+        🔹 <strong>Decryption:</strong> Input the encrypted text (hex string) to
+        retrieve the original message by decrypting it using the same key and
+        encryption method.
+      </li>
+    </ul>
+
+    <br />
+    <h1 style="text-align: center; padding-top: 20px">
+      AES Encryption and Decryption
+    </h1>
+
+    <div class="section">
+      <h2>How AES Encryption Works</h2>
+      <p>
+        The Advanced Encryption Standard (AES) is a symmetric encryption
+        algorithm that encrypts data using a secret key. AES encrypts data in
+        fixed-size blocks (128 bits), and can use key sizes of 128, 192, or 256
+        bits.
+      </p>
+
+      <div class="theory">
+        <h3>Step-by-Step Encryption Process:</h3>
+        <ul>
+          <li>
+            🔹 <span class="highlight-text">Input Data</span>: The data (text or
+            file) to be encrypted is input into the system.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Key Generation</span>: A secret key
+            is generated (or provided). This key will be used for both
+            encryption and decryption.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Padding</span>: If the data is not a
+            multiple of 128 bits, padding is applied to ensure the correct size
+            for encryption.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Data Encryption</span>: The data is
+            divided into 128-bit blocks and processed through multiple rounds of
+            AES encryption using the key.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Encrypted Output</span>: The final
+            encrypted data is output as a hex string, which can be stored or
+            transferred securely.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>How AES Decryption Works</h2>
+      <p>
+        Decryption is the reverse of encryption. The encrypted data (ciphertext)
+        is converted back into its original form (plaintext) using the same
+        secret key and the AES algorithm.
+      </p>
+
+      <div class="theory">
+        <h3>Step-by-Step Decryption Process:</h3>
+        <ul>
+          <li>
+            🔹 <span class="highlight-text">Input Encrypted Data</span>: The
+            encrypted data (ciphertext) is provided for decryption.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Key Matching</span>: The same secret
+            key used for encryption must be provided to decrypt the data
+            correctly.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Data Decryption</span>: AES uses the
+            same rounds of transformation (but in reverse) to convert the
+            ciphertext back to plaintext.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Unpadding</span>: If padding was
+            applied during encryption, it will be removed during decryption to
+            restore the original data.
+          </li>
+          <li>
+            🔹 <span class="highlight-text">Decrypted Output</span>: The
+            original data is recovered, and it can now be viewed or used as
+            needed.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Key Points to Remember</h2>
+      <ul>
+        <li>
+          🔹 AES is a symmetric encryption algorithm, meaning the same key is
+          used for both encryption and decryption.
+        </li>
+        <li>
+          🔹 It operates on 128-bit data blocks and supports key sizes of 128,
+          192, and 256 bits.
+        </li>
+        <li>
+          🔹 The security of AES depends on the strength of the key. A longer
+          key size provides better security.
+        </li>
+        <li>
+          🔹 Modes of operation (like CBC or ECB) affect how the algorithm
+          processes data and handles security.
+        </li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Encryption Modes: CBC vs. ECB</h2>
+      <p>
+        AES can be used with different modes of operation, two common ones are:
+      </p>
+      <ul>
+        <li>
+          🔹 <span class="highlight-text">ECB (Electronic Codebook)</span>: Each
+          block of data is encrypted independently. It's faster but less secure
+          because identical blocks of plaintext will produce identical
+          ciphertext.
+        </li>
+        <li>
+          🔹 <span class="highlight-text">CBC (Cipher Block Chaining)</span>:
+          Each block is XORed with the previous ciphertext block before
+          encryption, making it more secure but slower.
+        </li>
+      </ul>
+    </div>
+
+    <div class="content-container">
+      <!-- Flash message -->
+      <div class="flash-message">
+        <!-- Flash messages like "File uploaded successfully!" can be shown here -->
+      </div>
+
+      <!-- Feature Scope Section -->
+      <!-- <section>
+        <h2 class="section-title">Feature Scope</h2>
+        <ul class="feature-list">
+          <li>
+            <strong>File Upload:</strong> Users can upload files for encryption.
+          </li>
+          <li>
+            <strong>AES Encryption:</strong> Files and text are encrypted using
+            AES (CBC or ECB mode).
+          </li>
+          <li>
+            <strong>File Decryption:</strong> Encrypted files can be decrypted
+            to retrieve the original data.
+          </li>
+          <li>
+            <strong>Text Encryption and Decryption:</strong> Users can encrypt
+            and decrypt text directly in the app.
+          </li>
+          <li>
+            <strong>Visualizations:</strong> The system provides a visual
+            representation of AES encryption steps.
+          </li>
+          <li>
+            <strong>Error Handling:</strong> The system provides error messages
+            for invalid files, unsupported types, and encryption key mismatches.
+          </li>
+          <li>
+            <strong>User Interface:</strong> An intuitive and user-friendly
+            interface for easy navigation.
+          </li>
+        </ul>
+      </section>
+
+
+      <section>
+        <h2 class="section-title">Use Cases</h2>
+        <ul class="use-case-list">
+          <li>
+            <strong>Use Case: File Upload and Encryption</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user uploads a file, selects an encryption method (CBC or
+                ECB), and the file is encrypted using AES.
+              </p>
+              <p class="postcondition">
+                Postcondition: The file is successfully encrypted and saved.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <strong>Use Case: File Decryption</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user provides the encrypted file and decryption key to
+                decrypt the file back to its original form.
+              </p>
+              <p class="postcondition">
+                Postcondition: The decrypted file is available for download.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <strong>Use Case: Text Encryption</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user enters plain text, selects the encryption method, and
+                encrypts the text using AES.
+              </p>
+              <p class="postcondition">
+                Postcondition: The encrypted text is returned in hexadecimal
+                format.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <strong>Use Case: Text Decryption</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user enters the encrypted text (in hexadecimal format),
+                selects the decryption method, and decrypts the text to retrieve
+                the original plain text.
+              </p>
+              <p class="postcondition">
+                Postcondition: The decrypted plain text is displayed.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <strong>Use Case: Error Handling</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user uploads an invalid file, enters incorrect encryption
+                keys, or provides invalid text, and the system handles errors by
+                providing helpful messages.
+              </p>
+              <p class="postcondition">
+                Postcondition: The user receives a clear error message and
+                guidance on how to fix the issue.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <strong>Use Case: Encryption/Decryption Visualization</strong>
+            <div class="flow">
+              <p><span class="actor">Primary Actor:</span> User</p>
+              <p>
+                The user can view a visual representation of the AES encryption
+                process, including block splitting and key generation.
+              </p>
+              <p class="postcondition">
+                Postcondition: The user gains a better understanding of how AES
+                works.
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section> -->
+    </div>
+
+    <div class="developer-section">
+      <p><strong>Developer:</strong> <span>Shilpa </span></p>
+    </div>
+  </body>
+</html>
